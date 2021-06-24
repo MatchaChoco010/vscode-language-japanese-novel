@@ -80,7 +80,8 @@ function launchserver(originEditor: OriginEditor){
             }
         }
     
-        const uri = url.parse(request.url).pathname;
+        //const uri = url.parse(request.url).pathname;
+        const uri = new url.URL(request.url!).pathname;
         let filename = path.join(documentRoot.path, uri);
     
         fs.stat(filename, (err, stats) => {
@@ -89,10 +90,10 @@ function launchserver(originEditor: OriginEditor){
             if (err) { Response["404"](); return ; }
             if (fs.statSync(filename).isDirectory()) { filename += '/index.html'; }
 
-            fs.readFile(filename, "binary", function(err, file){
+            fs.readFile(filename, function(err, file){
             if (err) { Response["500"](err); return ; }
                 Response["200"](file, filename);   
-            }); 
+            });
         });
     })
     
