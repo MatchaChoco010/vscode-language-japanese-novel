@@ -48,10 +48,6 @@ function launchserver(originEditor: OriginEditor){
     
     // Node http serverを起動する
 
-//    const folderPath = vscode.workspace.workspaceFolders[0].uri.fsPath;
-//    const html = fs.readFileSync(path.join(folderPath, 'htdocs/index.html'));
-    
-
     const viewerServer = http.createServer(function(request, response) {
         const Response = {
             "200":function(file: Buffer, filename:string){
@@ -80,7 +76,6 @@ function launchserver(originEditor: OriginEditor){
             }
         }
     
-        //const uri = url.parse(request.url).pathname;
         const uri = new url.URL(request.url!).pathname;
         let filename = path.join(documentRoot.path, uri);
     
@@ -95,8 +90,8 @@ function launchserver(originEditor: OriginEditor){
                 Response["200"](file, filename);   
             });
         });
-    })
-    
+    });
+
     viewerServer.listen(8080);
     
     // Node Websockets Serverを起動する
